@@ -3,7 +3,7 @@ import torch.optim as optim
 
 from tqdm import tqdm 
 from load_model import get_gpt2_with_lora, evaluate_model
-from load_data import load_train_data, load_valid_data, load_test_data, create_data_loader
+from load_data import load_train_data, load_valid_data, create_data_loader
 
 ###########################
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
