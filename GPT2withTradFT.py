@@ -15,7 +15,9 @@ class GPT2withTraditionalFineTuning(nn.Module):
     def __init__(self, 
                  gpt_model : GPT2LMHeadModel, 
                  print_count : bool = True):
-        
+        """ 
+        Initializes the Traditional Fine tuning model 
+        """
         super().__init__()
         self.model = gpt_model
         

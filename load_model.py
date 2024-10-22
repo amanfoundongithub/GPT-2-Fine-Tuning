@@ -11,7 +11,7 @@ from tqdm import tqdm
 import torch 
 
 
- # Initialize ROUGE scorer for calculating ROUGE score 
+# Initialize ROUGE scorer for calculating ROUGE score 
 rouge_scorer_fn = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemmer=True)
     
 
@@ -129,7 +129,29 @@ def evaluate_model(gpt_model : Module,
                    gpt_tokenizer : GPT2Tokenizer,
                    dataloader : DataLoader,
                    typeof : str = "train" | "valid" | "test"):
-
+    """ 
+    Evaluates metrics for the model on the 
+    dataloader 
+    
+    Args
+    ---- 
+    gpt_model : The GPT-2 Model to be evaluated
+    
+    gpt_tokenizer : The tokenizer of the GPT-2 model 
+    
+    dataloader : The torch DataLoader containing the samples
+    
+    typeof : The type of dataset("train", "test", "valid")
+    
+    Returns
+    ----
+    Returns nothing, prints the following metrics:
+    * Loss 
+    * ROUGE scores
+        - ROUGE-1
+        - ROUGE-2
+        - ROUGE-L
+    """
     # Evaluation loop
     loss = 0.0
     rouge1 = 0.0
