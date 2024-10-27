@@ -1,11 +1,13 @@
 import torch
 
-from load_model import get_gpt2_with_lora, get_gpt2_with_traditional_fine_tuning, evaluate_model
+from load_model import get_gpt2_with_lora, get_gpt2_with_traditional_fine_tuning, get_gpt2_with_soft_prompt, evaluate_model
 from load_data import load_test_data, create_data_loader
 
 
 ###########################
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+PROMPT_LENGTH = 10
 
 RANK   = 8
 ALPHA  = 16
@@ -48,5 +50,21 @@ gpt_tokenizer = lora_dict.get("tokenizer")
 #######################################################################################################
 # Evaluate metrics 
 print("Evaluating Traditional Fine Tuning on Test Set...")
+evaluate_model(gpt_model, gpt_tokenizer, testing_dataloader, typeof = "test")
+#######################################################################################################
+
+
+# ------------------------ EVALUATION OF SOFT PROMPT ON TEST SET ------------------------------------ #
+#######################################################################################################
+# Load the GPT-2 with fine tuned model pretrained 
+lora_dict = get_gpt2_with_soft_prompt(prompt_length = PROMPT_LENGTH, filename = "gpt2_with_soft_prompt.pt")
+
+gpt_model = lora_dict.get("model").to(DEVICE)
+gpt_tokenizer = lora_dict.get("tokenizer") 
+#######################################################################################################
+
+#######################################################################################################
+# Evaluate metrics 
+print("Evaluating Soft Prompting on Test Set...")
 evaluate_model(gpt_model, gpt_tokenizer, testing_dataloader, typeof = "test")
 #######################################################################################################

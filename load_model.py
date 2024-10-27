@@ -16,7 +16,7 @@ rouge_scorer_fn = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_s
     
 
 # Returns the GPT model, tokenizer and embedding dimension
-def get_gpt2_with_soft_prompt(prompt_length):
+def get_gpt2_with_soft_prompt(prompt_length, filename = None):
     # Tokenizer
     tokenizer = GPT2Tokenizer.from_pretrained("gpt2") 
     tokenizer.pad_token = tokenizer.eos_token
@@ -34,6 +34,9 @@ def get_gpt2_with_soft_prompt(prompt_length):
         embedding_dim = embedding_dimension,
         gpt_model = model
     )
+    
+    if filename is not None:
+        gpt2_soft.load(filename) 
 
     return {
         "tokenizer" : tokenizer,
@@ -128,7 +131,7 @@ def get_gpt2_with_traditional_fine_tuning(filename : str = None):
 def evaluate_model(gpt_model : Module,
                    gpt_tokenizer : GPT2Tokenizer,
                    dataloader : DataLoader,
-                   typeof : str = "train" | "valid" | "test"):
+                   typeof : str = "train"):
     """ 
     Evaluates metrics for the model on the 
     dataloader 

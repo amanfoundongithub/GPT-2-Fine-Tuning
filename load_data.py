@@ -11,7 +11,7 @@ tqdm.pandas()
 def tokenize_row(row, tokenizer : GPT2Tokenizer):
     # Input -> article
     inputs = tokenizer(row["article"], return_tensors = "pt", 
-                           max_length = 256, padding = "max_length", 
+                           max_length =  256, padding = "max_length", 
                            truncation = True)
     # Target -> highlights 
     highlights = tokenizer(row["highlights"], return_tensors = "pt", 
@@ -28,6 +28,8 @@ def load_train_data(tokenizer : GPT2Tokenizer) -> pd.DataFrame:
     print("... CSV File converted. Now, tokenizing the sentences...")
     
     df["input"], df["target"] = zip(* df.progress_apply(lambda row : tokenize_row(row, tokenizer), axis = 1)) 
+    
+    df = df.sample(frac = 0.5)
     
     df = df[["input", "target"]]
     
@@ -71,7 +73,7 @@ def create_data_loader(data : pd.DataFrame, device = "cpu") -> tud.DataLoader:
 
     # Pytorch dataloader for training
     dataloader = tud.DataLoader(dataset = dataset,
-                                batch_size = 16,
+                                batch_size = 10,
                                 shuffle = False)
     
     return dataloader
