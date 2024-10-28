@@ -41,21 +41,3 @@ python3 TestModels.py
 ```
 
 
-
-Soft Prompt
----
-In soft prompt, we trained a series of embedding that is prepended to the input embeddings.
-
-No of trainable parameters : 3840
-
-The model was trained for 4 epochs using Adam as optimizer with learning rate `5e-4`. The results of the training are as follows: 
-
-**Evaluation Loss** : 3.27
-
-**ROUGE Scores**:
-- ROUGE-1 : 15.51
-- ROUGE-2 : 6.92
-- ROUGE-L : 10.82
-
-
-
